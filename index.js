@@ -205,19 +205,21 @@ const artists = [
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 1: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Practice accessing data above by console.log-ing following items:
-(no functions needed) */
+(no functions needed) 
+artists array */
 
 //(1) Name of the first artist (0th index) in the array
-
-
+console.log(artists[0].name);
 //(2) Bio of the third artist (2nd index) in the array 
-
+console.log(artists[2].bio);
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 (no function needed) 
-There is a typo in your dataset 😱 The 9th artist, Vincent Van Gogh is currently Vincent Van Dough. Fix this issue and console.log() to check your work. */
-
+There is a typo in your dataset 😱 The 9th artist, Vincent Van Gogh is currently Vincent Van Dough. Fix this issue and console.log() to check your work. 
+self note: he's the 9th artist but he's in the 8th index*/
+artists[8].name = "Vincent Van Gogh";
+console.log(artists[8].name);
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀  
@@ -228,9 +230,10 @@ Use getArtistByIndex to do the following:
 
 Example, if getArtistByIndex is invoked with the artists array and the number 0, it will return `the artist at index 0 is Amedeo Modigliani` */
 
-function getArtistByIndex(/*Your Code Here*/) {
-  /*Your Code Here*/
+function getArtistByIndex(arr, i) {
+  return `The artist at index ${i} is ${arr[i].name}.`;
 }
+console.log(getArtistByIndex(artists, 0));
 
 
 
@@ -243,9 +246,34 @@ Example born in 1901 and died in 1959 - included -- born in 1889 and died in 192
 If correct, the function should return ["Salvador Dali", "Frida Kahlo"]*/
 // Hint - Look up the .split() method
 
-function get20s(/*Your Code Here*/) {
-  /*Your Code Here*/
+
+function get20s(arr) {
+  const get20th = [];
+
+  for (let i = 0; i < arr.length; i++){
+    const splitYears = arr[i].years.split(' - '); //this also needs to be in the for loop
+    // console.log(splitYears); just to make sure each 'years' value in each array actually split. the artists variable is an array of objects. so we went from each object with arr[i], to the key value 'years' of each object, and we're going to remove the ' - ' string we passed through the .split method within each 'years' value. so it'll just show up as ['1884', '1920'] - - .split turns each object into an array(?)
+
+    const yearBorn = parseInt(splitYears[0], 10);
+    const yearDied = parseInt(splitYears[1], 10);
+    // console.log(yearBorn, yearDied); to check 
+    // look at tips doc for parse info. parseInt changes the two strings in each array into numbers. the index in splitYears is for the first index of the list of arrays you made (so one of the arrays is ['1884', '1920']). and the 10 is the base number you have to include. So, since there are two strings, we will separate the strings by putting them into a separate variable. we use parseInt and pass in our splitYears varialbe (which has the arrays of strings) in order to change each index and 0 and 1 to a number. Now we have a list of numbers.
+
+
+    if(yearBorn >= 1900 && yearDied >= 1900 && yearBorn <= 2000 && yearDied <= 2000){ //THEN \/
+      get20th.push(arr[i].name);
+    }
+  }
+  return get20th;
+  // aka the get20s function will return the info that you put into get20th, which are the names of artists who were born in and died in 20th century (1900-2000)  
 }
+
+console.log(get20s(artists));
+
+
+// I want to get the key value (years value) of each array index. then i want to split the values so that they are separate strings. then i want to make each string a number 
+
+
 
 
 
@@ -253,20 +281,26 @@ function get20s(/*Your Code Here*/) {
 Use removeArtist to do the following:
 1. Receive an array
 2. Receive a number which is the desired index in the array
-3. The function should remove an artist from the array at the index
-4. Return the length of the remaining dataset.
+3. The function should REMOVE an artist from the array at the index
+4. RETURN the LENGTH of the remaining dataset.
 
 For example, if removeArtist is invoked with the artists array and the number 0, it will remove Amedeo Modigliani from our dataset and return the number 19. */
 
-function removeArtist(/*Your Code Here*/) {
-  /*Your Code Here*/
+function removeArtist(arr, i) {
+  const removeArr = arr.splice(i,1);
+  return arr.length;
 }
+console.log(removeArtist(artists, 0));
+
+
+
+
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Use addArtist to do the following: 
 1. Receive an array
-2. Add this object of information to the end of the array
+2. Add this object of information to the END of the array
   { 
     id: 20,
     name: Your Name Here, 
@@ -279,9 +313,19 @@ Use addArtist to do the following:
 
 Example: addArtist(artists) should return the artists array with the above object added to the end of the array. */
 
-function addArtist(/*Your Code Here*/) {
-  /*Your Code Here*/
+function addArtist(arr) {
+  arr.push('id: 20',
+  'name: Victoria', 
+  'years: 1993 - ',
+  'genre: Web Design', 
+  'nationality: Asian/Mexican',
+  'bio: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
+
+  console.log(arr);
 }
+
+console.log(addArtist(artists));
+
 
 
 
@@ -292,12 +336,56 @@ Use lotsOfArt to do the following:
 
 For example lotsOfArt(artists); will return ["Amedeo Modigliani", "Rene Magritte", ... "Albrecht Dürer"]*/
 
-function lotsOfArt(/*Your Code Here*/) {
-  /*Your Code Here*/
-}
+  /*
+  Since the paintings's value is already a number, I do not need to use 
+  .split to remove any spaces or dashes. and I do not need to use parseInt to change a string into a number. 
+
+  I want to access the key/values in each object in the array.
+  In the function, I'll make another array to take in artist names who have painted over 100 paintings.
+  I want the loop to check each paintings key to see if the value's number is over 100 (struggling here since arr[i].paintings > 100 isn't working - - how do i make that a number?)
+  
+
+  */
+
+
+
+function lotsOfArt(arr) {
+  const newArr = [];
+
+  for (let i = 0; i < arr.length; i++){
+    if (arr[i].paintings > 100){
+      newArr.push(arr[i].name);
+      
+    }
+  }
+  return newArr;
+  }
+
+console.log(lotsOfArt(artists));
+
+/*this won't have amedo modigliani bc of task 5 where we removed that object. this is all correct though*/
+
+
+
+
+
+
+
+
 
 
 /* ***** END OF TASKS ***** */
+
+
+
+
+
+
+
+
+
+
+
 
 
 
